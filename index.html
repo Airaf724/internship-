@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./queue/queue.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="./assests/medical-logo.png" alt="Logo">
+            <h1>Student Management System</h1>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sidebar">
+            <div class="user-detail">
+                <img src="./assests/user.png" alt="User" class="profile-img">
+                <p class="username">Airaf Lohar</p>
+            </div>
+            <ul class="list">
+                <li data-section="task">
+                    <div class="">
+                        <img src="./assests/task.jpeg" alt="task.png">
+                        <p>My Task</p>
+                    </div>
+                </li>
+                <li data-section="sop">
+                    <div class="">
+                        <img src="./assests/SOP.png" alt="task.png">
+                        <p>SOP</p>
+                    </div>
+                </li>
+                <li class="active" data-section="students">
+                    <div class="">
+                        <img src="./assests/student-list.jpeg" alt="task.png">
+                        <p>Student List</p>
+                    </div>
+                </li>
+                <li data-section="queue">
+                    <div class="">
+                        <img src="./assests/report.png" alt="task.png">
+                        <p>Queue</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Students List Section -->
+        <div class="main-content" id="students-section">
+            <h2>Students List</h2>
+            <input class="input-box" type="text" placeholder="🔍 Search">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Student Name</th>
+                        <th>Total Tasks</th>
+                        <th>Completed Tasks</th>
+                        <th>Pending Tasks</th>
+                        <th>Report</th>
+                    </tr>
+                </thead>
+                <tbody id="student-table">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Queue Section -->
+       <!-- Queue Section - Update in your index.html -->
+<div class="main-content" id="queue-section" style="display: none; width: 100%; overflow: hidden;">
+    <div id="queue-content" style="width: 100%; overflow: hidden"></div>
+</div>
+        
+        <!-- Placeholder for SOP Section -->
+        <div class="main-content" id="sop-section" style="display: none;">
+            <h2>Standard Operating Procedures</h2>
+            <p>SOP content will appear here.</p>
+        </div>
+        
+        <!-- Placeholder for Task Section -->
+        <div class="main-content" id="task-section" style="display: none;">
+            <h2>My Tasks</h2>
+            <p>Task content will appear here.</p>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
