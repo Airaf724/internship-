@@ -1,15 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-require("dotenv").config(); // Load .env variables
+require("dotenv").config();
 
 let mainWindow;
 
 app.whenReady().then(() => {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1400,
+    height: 1200,
     webPreferences: {
-      preload: __dirname + "/preload.js", // Load Preload Script
+      preload: __dirname + "/preload.js",
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
@@ -18,15 +18,13 @@ app.whenReady().then(() => {
     },
   });
 
-  // mainWindow.setContentProtection(true);
-
   mainWindow.loadFile("index.html");
 
   ipcMain.on("open-student-report", (event, studentData) => {
     const reportWindow = new BrowserWindow({
       width: 500,
       height: 400,
-      title: `Report - ${studentData.studentName}`, // Fix the title
+      title: `Report - ${studentData.studentName}`,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,

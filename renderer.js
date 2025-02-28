@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const token = window.env.TOKEN; // Get token from preload.js
+  const token = window.env.TOKEN; // get token from preload.js
 
   console.log("Token:", token);
 
@@ -29,14 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       console.log("Student Performance Data:", data);
 
-      // displayData(data);
-      renderTable(data); //call when api works properlynp
+      renderTable(data);
     } catch (error) {
       console.error("Error fetching student performance:", error);
     }
   }
 
-  // Call the function when needed
   fetchStudentPerformance();
 
   const tableBody = document.getElementById("student-table");
@@ -118,8 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // renderTable(students); // for dummy data removed later
-
   searchInput.addEventListener("input", () => {
     const searchText = searchInput.value.toLowerCase();
     const filteredStudents = students.filter((student) =>
@@ -129,6 +125,5 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTable(searchText ? filteredStudents : students);
   });
 
-  // Show the default section
   showSection("students-section");
 });
