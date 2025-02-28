@@ -3,44 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("Token:", token);
 
-  const students = [
-    {
-      roll: 1,
-      name: "Airaf Lohar",
-      class: "BE",
-      percentage: 95,
-      result: "Pass",
-    },
-    {
-      roll: 2,
-      name: "Priya Sharma",
-      class: "BE",
-      percentage: 80,
-      result: "Pass",
-    },
-    {
-      roll: 3,
-      name: "Amit Tandon",
-      class: "SE",
-      percentage: 90,
-      result: "Pass",
-    },
-    {
-      roll: 4,
-      name: "Neha Mundase",
-      class: "TE",
-      percentage: 70,
-      result: "Pass",
-    },
-    {
-      roll: 5,
-      name: "Arjun Mehta",
-      class: "BE",
-      percentage: 40,
-      result: "Fail",
-    },
-  ];
-
   async function fetchStudentPerformance() {
     if (!token) {
       console.error("No token found, please login first");
@@ -60,15 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (response.status === 403) {
-        alert("Not authorized to access this data"); // Role-based restriction
+        alert("Not authorized to access this data");
         return;
       }
 
       const data = await response.json();
       console.log("Student Performance Data:", data);
 
-      // Render the data in your frontend
       // displayData(data);
+      renderTable(data); //call when api works properlynp
     } catch (error) {
       console.error("Error fetching student performance:", error);
     }
@@ -107,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const html = await response.text();
           queueContent.innerHTML = html;
 
-          // Dynamically load queue.js
           const script = document.createElement("script");
           script.src = "./queue/queue.js";
           script.defer = true;
@@ -126,44 +87,43 @@ document.addEventListener("DOMContentLoaded", () => {
       let row = document.createElement("tr");
 
       row.innerHTML = `
-                <td>${student.roll}</td>
-                <td>${student.name}</td>
-                <td>${student.class}</td>
-                <td>${student.percentage}%</td>
-                <td class="${student.result === "Pass" ? "pass" : "fail"}">${
-        student.result
-      }</td>
-                <td><button class="report-btn" data-roll="${
-                  student.roll
-                }">View</button></td>
-            `;
+        <td>${student.studentId}</td>
+        <td>${student.studentName}</td>
+        <td>${student.totalTasks}</td>
+        <td>${student.completedTasks}</td>
+        <td>${student.pendingTasks}</td>
+        <td>${student.failedTasks}</td>
+        <td><button class="report-btn" data-student-id="${student.studentId}">View</button></td>
+      `;
 
       tableBody.appendChild(row);
     });
 
-    // Add event listeners to the view buttons
     document.querySelectorAll(".report-btn").forEach((button) => {
       button.addEventListener("click", (event) => {
-        const rollNumber = parseInt(event.target.getAttribute("data-roll"));
-        const studentData = students.find((s) => s.roll === rollNumber);
+        const studentId = parseInt(
+          event.target.getAttribute("data-student-id")
+        );
+        const studentData = filteredStudents.find(
+          (s) => s.studentId === studentId
+        );
 
         if (studentData) {
-          // Use the exposed API from preload.js instead of direct ipcRenderer
+          console.log("Sending student data:", studentData);
           window.api.openStudentReport(studentData);
+        } else {
+          console.error("Student data not found for ID:", studentId);
         }
       });
     });
   }
 
-  renderTable(students);
+  // renderTable(students); // for dummy data removed later
 
   searchInput.addEventListener("input", () => {
     const searchText = searchInput.value.toLowerCase();
-    const filteredStudents = students.filter(
-      (student) =>
-        student.name.toLowerCase().includes(searchText) ||
-        student.class.toLowerCase().includes(searchText) ||
-        student.result.toLowerCase().includes(searchText)
+    const filteredStudents = students.filter((student) =>
+      student.studentName.toLowerCase().includes(searchText)
     );
 
     renderTable(searchText ? filteredStudents : students);
