@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const token = window.env.TOKEN; // get token from preload.js
-
+  // taking token from env file
   console.log("Token:", token);
 
   async function fetchStudentPerformance() {
