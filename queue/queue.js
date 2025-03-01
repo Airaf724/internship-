@@ -11,7 +11,7 @@ document.getElementById("btn").addEventListener("click", function () {
     }
 
     try {
-      const userId = getUserIdFromToken(token) || 3; // Implement this function based on your token structure
+      const userId = getUserIdFromToken(token) || 3;
       const response = await fetch(
         `https://etmf.somee.com/api/task/assigned/3`,
         {
@@ -41,7 +41,7 @@ document.getElementById("btn").addEventListener("click", function () {
     }
 
     function getUserIdFromToken(token) {
-      return "currentUserId"; // Replace with actual implementation
+      return "currentUserId";
     }
 
     function renderTaskList(tasksToRender) {
@@ -56,8 +56,6 @@ document.getElementById("btn").addEventListener("click", function () {
         const li = document.createElement("li");
         li.dataset.taskId = task.documentId;
 
-        // Fix: Display current status at the top of the dropdown
-        // Make sure option values match exactly what the server expects
         li.innerHTML = `
                   <img src="./assests/folder.png" alt="folder-img">
                   <div class="task-details">
@@ -83,7 +81,6 @@ document.getElementById("btn").addEventListener("click", function () {
         queueContainer.appendChild(li);
       });
 
-      // Add event listeners to status dropdowns after they are created
       document.querySelectorAll(".status-dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", async (event) => {
           const taskId = event.target.dataset.taskId;
@@ -113,13 +110,11 @@ document.getElementById("btn").addEventListener("click", function () {
 
         console.log(`Task ${taskId} status updated to ${newStatus}`);
 
-        // Update local tasks array to reflect the change
         const taskIndex = tasks.findIndex((t) => t.documentId === taskId);
         if (taskIndex !== -1) {
           tasks[taskIndex].status = newStatus;
         }
 
-        // Show success notification
         alert(`Document status updated to ${newStatus} successfully!`);
       } catch (error) {
         console.error("Error updating task status:", error);
@@ -127,7 +122,6 @@ document.getElementById("btn").addEventListener("click", function () {
       }
     }
 
-    // Set up search functionality
     if (searchInput) {
       searchInput.addEventListener("input", () => {
         const searchTerm = searchInput.value.toLowerCase();
@@ -137,5 +131,5 @@ document.getElementById("btn").addEventListener("click", function () {
         renderTaskList(filteredTasks);
       });
     }
-  }, 1000); // Delay execution by 1 second
+  }, 500);
 });
