@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const token = window.env.TOKEN; // get token from preload.js
-  // taking token from env file
+  const token = window.env.TOKEN; // get token from preload.js required token for fetching data , i have passed it from the env file
   console.log("Token:", token);
+
+  let students = []; // Store student data globally
 
   async function fetchStudentPerformance() {
     if (!token) {
@@ -26,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const data = await response.json();
-      console.log("Student Performance Data:", data);
+      students = await response.json(); // Store data globally
+      console.log("Student Performance Data:", students);
 
-      renderTable(data);
+      renderTable(students);
     } catch (error) {
       console.error("Error fetching student performance:", error);
     }
@@ -39,47 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tableBody = document.getElementById("student-table");
   const searchInput = document.querySelector(".input-box");
-  const sections = document.querySelectorAll(".main-content");
-  const sidebarItems = document.querySelectorAll(".list li");
-
-  function showSection(sectionId) {
-    sections.forEach((section) => {
-      section.style.display = "none";
-    });
-
-    document.getElementById(sectionId).style.display = "block";
-  }
-
-  sidebarItems.forEach((item) => {
-    item.addEventListener("click", async () => {
-      const sectionId = item.getAttribute("data-section") + "-section";
-
-      sidebarItems.forEach((el) => el.classList.remove("active"));
-      item.classList.add("active");
-
-      showSection(sectionId);
-
-      if (sectionId === "queue-section") {
-        const queueContent = document.getElementById("queue-content");
-
-        try {
-          const response = await fetch("./queue/queue.html");
-          const html = await response.text();
-          queueContent.innerHTML = html;
-
-          const script = document.createElement("script");
-          script.src = "./queue/queue.js";
-          script.defer = true;
-          document.body.appendChild(script);
-        } catch (error) {
-          console.error("Error loading queue.html:", error);
-        }
-      }
-    });
-  });
 
   function renderTable(filteredStudents) {
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = ""; // Clear existing rows
 
     filteredStudents.forEach((student) => {
       let row = document.createElement("tr");
@@ -97,14 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
       tableBody.appendChild(row);
     });
 
+    // Add event listeners to "View" buttons
     document.querySelectorAll(".report-btn").forEach((button) => {
       button.addEventListener("click", (event) => {
         const studentId = parseInt(
           event.target.getAttribute("data-student-id")
         );
-        const studentData = filteredStudents.find(
-          (s) => s.studentId === studentId
-        );
+        const studentData = students.find((s) => s.studentId === studentId);
 
         if (studentData) {
           console.log("Sending student data:", studentData);
@@ -116,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Fix search function
   searchInput.addEventListener("input", () => {
     const searchText = searchInput.value.toLowerCase();
     const filteredStudents = students.filter((student) =>
