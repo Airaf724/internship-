@@ -139,6 +139,39 @@
     text-overflow: ellipsis;
 }
 
+li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-details {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    justify-content: flex-start; /* Add this to ensure left alignment */
+}
+
+.task-details p {
+    margin: 0;
+    padding-left: 10px;
+    text-align: left;
+    width: 100%; /* Add this to ensure the text takes up available space */
+}
+
+/* You might also need to adjust the task-status placement */
+.task-status {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto; /* This pushes it to the right */
+}
+.status-dropdown {
+    padding: 5px;
+}
+
+
 @media (max-width: 768px) {
     .summary {
         flex-direction: column;
